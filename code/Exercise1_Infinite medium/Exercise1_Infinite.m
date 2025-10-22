@@ -23,16 +23,19 @@ SourcePos = [0, 0, 0];  % [cm]
 DetPos = [2, 0, 0];     % [cm]
 
 %% plot the fluence
-y = TDInfinite(SourcePos, DetPos, n, mua, musp, t);
-figure(1),
-
+y = TDInfinite_sol(SourcePos,DetPos,n,mua,musp,t);
+figure(1),semilogy(t,y),
+ylim([1e-8 1e-2]);
+xlabel('time (ps)'),
+ylabel('fluence [cm-2 * ps-1]'),grid
 %% Exercise 1.1: fix SD distance, musprime, change mua and plot
 % define the vector of mua
 muavector = 0:0.01:0.2;
 
 figure(2)
-for 
-    % ...........
+for imua = muavector
+    y = TDInfinite_sol(SourcePos,DetPos,n,imua,musp,t);
+    semilogy(t,y),hold on;
 end
 ylim([1e-8 1e-3]),
 xlabel('time (ps)'),
@@ -44,8 +47,9 @@ title('change mua')
 muspvector = 5:20;
 
 figure(3),
-for 
-    % ..........
+for imusp = muspvector
+    y = TDInfinite_sol(SourcePos,DetPos,n,mua,imusp,t);
+    semilogy(t,y),hold on;
 end
 ylim([1e-8 1e-3]),
 xlabel('time (ps)'),
@@ -56,8 +60,9 @@ title('change musprime')
 % define a vector of detection X positions
 detvector = 0.5:0.5:4;
 figure(4),
-for 
-    % ...........
+for idet = detvector
+    y = TDInfinite_sol(SourcePos,[idet,0,0],n,mua,musp,t);
+    semilogy(t,y),hold on;
 end
 ylim([1e-8 1e-2]),
 xlabel('time (ps)'),
@@ -71,7 +76,8 @@ Y = -10:0.1:10;
 Z = -10:0.1:10;
 % define the meshgrid
 [XX,YY,ZZ] = meshgrid(X,Y,Z);
-% .............
+Pos = [XX(:),YY(:),ZZ(:)];
+
 
 figure(5),
 clim = [-50,-3];
