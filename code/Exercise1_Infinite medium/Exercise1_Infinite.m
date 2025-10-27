@@ -78,12 +78,13 @@ Z = -10:0.1:10;
 [XX,YY,ZZ] = meshgrid(X,Y,Z);
 Pos = [XX(:),YY(:),ZZ(:)];
 
-
 figure(5),
 clim = [-50,-3];
 ysec = 100;
-% plot the fluence map in a loop over the time
 for it = 1:100
-    % ..................
-    % use imagesc, squeeze, reshape
+    Fluence = TDInfinite(SourcePos,Pos,n,mua,musp,t(it));
+    Fluence3D = reshape(Fluence,size(XX));
+    figure(5),imagesc(X,Z,squeeze(log(Fluence3D(:,ysec,:)))',clim),colorbar, axis image,
+    xlabel('x [cm]'), ylabel('z [cm]')
+    drawnow,pause(0.1)
 end
