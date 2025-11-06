@@ -79,6 +79,9 @@ figure(5),
 clim = [-50,-3];
 ysec = 100;
 for it = 1:100
-    %%%%% similar to Ex 1
-    drawnow,pause(0.01);
+    Fluence = TDSemiInfinite_EBC(SourcePos,Pos,n,mua,musp,t(it));
+    Fluence3D = reshape(Fluence,size(XX));
+    figure(5),imagesc(X,Z,squeeze(log(Fluence3D(:,ysec,:)))',clim),colorbar, axis image,
+    xlabel('x [cm]'), ylabel('z [cm]')
+    drawnow,pause(0.1);
 end
